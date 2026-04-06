@@ -1,15 +1,301 @@
 <section class="bg-white">
     <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 sm:py-12 lg:py-16">
-        <div class="max-w-prose text-left">
-            <h1 class="mt-0 text-4xl font-bold text-gray-900 sm:text-5xl">
-                No more guessing. Everyone
-                <strong class="text-teal-600"> pays </strong>
-                for what they
-                <strong class="text-teal-600"> had </strong>
-            </h1>
-            <p class="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed">
-                No more equal splits. Add items, assign consumers, and let the app do the math.
-            </p>
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+            <!-- Left: Text Content -->
+            <div class="max-w-prose text-left">
+                <h1 class="mt-0 text-4xl font-bold text-gray-900 sm:text-5xl">
+                    No more guessing. Everyone
+                    <strong class="text-teal-600"> pays </strong>
+                    for what they
+                    <strong class="text-teal-600"> had </strong>
+                </h1>
+                <p class="mt-4 text-base text-pretty text-gray-700 sm:text-lg/relaxed">
+                    No more equal splits. Add items, assign consumers, and let the app do the math.
+                </p>
+                <div class="mt-8">
+                    <a href="/bill"
+                        class="inline-flex items-center gap-2 rounded-md bg-teal-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-teal-700 transition-colors">
+                        Get Started
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                        </svg>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Right: App Mockup Card -->
+            <div class="flex justify-center lg:justify-end">
+                <div
+                    class="bg-white rounded-2xl shadow-2xl border border-gray-200 p-6 w-full max-w-sm transform hover:scale-105 transition-transform">
+                    <!-- Card Header -->
+                    <div class="flex items-center justify-between mb-4">
+                        <div class="flex items-center gap-2">
+                            <span class="text-2xl">🍕</span>
+                            <div>
+                                <h3 class="font-semibold text-gray-900">Pizza Night</h3>
+                                <p class="text-xs text-gray-500">3 people • 4 items</p>
+                            </div>
+                        </div>
+                        <span
+                            class="px-2 py-1 bg-green-100 text-green-700 text-xs font-medium rounded-full">Settled</span>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-gray-100 my-4"></div>
+
+                    <!-- Who Pays What -->
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-teal-100 flex items-center justify-center">
+                                    <span class="text-sm font-medium text-teal-700">A</span>
+                                </div>
+                                <span class="text-sm text-gray-700">Ahmed</span>
+                            </div>
+                            <span class="text-sm font-semibold text-gray-900">PKR 1,250</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <span class="text-sm font-medium text-blue-700">S</span>
+                                </div>
+                                <span class="text-sm text-gray-700">Sara</span>
+                            </div>
+                            <span class="text-sm font-semibold text-gray-900">PKR 850</span>
+                        </div>
+
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+                                    <span class="text-sm font-medium text-purple-700">K</span>
+                                </div>
+                                <span class="text-sm text-gray-700">Kamran</span>
+                            </div>
+                            <span class="text-sm font-semibold text-gray-900">PKR 1,100</span>
+                        </div>
+                    </div>
+
+                    <!-- Divider -->
+                    <div class="border-t border-gray-100 my-4"></div>
+
+                    <!-- Total -->
+                    <div class="flex items-center justify-between">
+                        <span class="text-sm font-medium text-gray-600">Total</span>
+                        <div class="flex items-center gap-2">
+                            <span class="text-lg font-bold text-gray-900">PKR 3,200</span>
+                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+</section>
+
+<!-- How It Works -->
+<section class="bg-gray-50 py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900">How It Works</h2>
+            <p class="mt-2 text-gray-600">Split bills fairly in 4 simple steps</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+            <!-- Step 1 -->
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto bg-teal-100 rounded-full flex items-center justify-center mb-4">
+                    <span class="text-2xl font-bold text-teal-600">1</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Create a Bill</h3>
+                <p class="text-gray-600 text-sm">Start by creating a new bill for your dinner, trip, or shared expense.
+                </p>
+            </div>
+
+            <!-- Step 2 -->
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto bg-teal-100 rounded-full flex items-center justify-center mb-4">
+                    <span class="text-2xl font-bold text-teal-600">2</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Add Participants</h3>
+                <p class="text-gray-600 text-sm">Add everyone who's part of the bill - friends, family, or colleagues.
+                </p>
+            </div>
+
+            <!-- Step 3 -->
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto bg-teal-100 rounded-full flex items-center justify-center mb-4">
+                    <span class="text-2xl font-bold text-teal-600">3</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Add Items & Assign</h3>
+                <p class="text-gray-600 text-sm">Enter each item and select who consumed it. Shared items? No problem!
+                </p>
+            </div>
+
+            <!-- Step 4 -->
+            <div class="text-center">
+                <div class="w-16 h-16 mx-auto bg-teal-100 rounded-full flex items-center justify-center mb-4">
+                    <span class="text-2xl font-bold text-teal-600">4</span>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">See Who Pays What</h3>
+                <p class="text-gray-600 text-sm">Get an instant breakdown of what everyone owes. Fair and transparent!
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features -->
+<section class="bg-white py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900">Features</h2>
+            <p class="mt-2 text-gray-600">Everything you need for fair bill splitting</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            <!-- Feature 1 -->
+            <div class="p-6 bg-gray-50 rounded-xl">
+                <div class="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Item-Level Tracking</h3>
+                <p class="text-gray-600 text-sm">Track each item separately and assign to specific people. No more
+                    unfair equal splits.</p>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="p-6 bg-gray-50 rounded-xl">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Shared Items</h3>
+                <p class="text-gray-600 text-sm">Split appetizers or shared dishes among just the people who had them.
+                </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="p-6 bg-gray-50 rounded-xl">
+                <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-orange-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Tax, Tip & Discounts</h3>
+                <p class="text-gray-600 text-sm">Add tax, tip, and discounts - split equally among all participants.</p>
+            </div>
+
+            <!-- Feature 4 -->
+            <div class="p-6 bg-gray-50 rounded-xl">
+                <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Payment Tracking</h3>
+                <p class="text-gray-600 text-sm">Record who has paid and track remaining amounts in real-time.</p>
+            </div>
+
+            <!-- Feature 5 -->
+            <div class="p-6 bg-gray-50 rounded-xl">
+                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Settlement Summary</h3>
+                <p class="text-gray-600 text-sm">See exactly who owes whom and the suggested transfers to settle up.</p>
+            </div>
+
+            <!-- Feature 6 -->
+            <div class="p-6 bg-gray-50 rounded-xl">
+                <div class="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
+                    <svg class="w-6 h-6 text-teal-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                    </svg>
+                </div>
+                <h3 class="text-lg font-semibold text-gray-900 mb-2">Secure & Private</h3>
+                <p class="text-gray-600 text-sm">Your bills are private. Only you can see and manage your expenses.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Use Cases -->
+<section class="bg-gray-50 py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold text-gray-900">Perfect For</h2>
+            <p class="mt-2 text-gray-600">Any situation where splitting bills gets complicated</p>
+        </div>
+
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+            <!-- Use Case 1 -->
+            <div class="text-center p-4">
+                <div class="text-4xl mb-3">🍕</div>
+                <h3 class="font-medium text-gray-900">Dinner with Friends</h3>
+            </div>
+
+            <!-- Use Case 2 -->
+            <div class="text-center p-4">
+                <div class="text-4xl mb-3">✈️</div>
+                <h3 class="font-medium text-gray-900">Group Trips</h3>
+            </div>
+
+            <!-- Use Case 3 -->
+            <div class="text-center p-4">
+                <div class="text-4xl mb-3">🏠</div>
+                <h3 class="font-medium text-gray-900">Roommates</h3>
+            </div>
+
+            <!-- Use Case 4 -->
+            <div class="text-center p-4">
+                <div class="text-4xl mb-3">🎉</div>
+                <h3 class="font-medium text-gray-900">Parties & Events</h3>
+            </div>
+
+            <!-- Use Case 5 -->
+            <div class="text-center p-4">
+                <div class="text-4xl mb-3">🛒</div>
+                <h3 class="font-medium text-gray-900">Grocery Runs</h3>
+            </div>
+
+            <!-- Use Case 6 -->
+            <div class="text-center p-4">
+                <div class="text-4xl mb-3">👨‍👩‍👧‍👦</div>
+                <h3 class="font-medium text-gray-900">Family Expenses</h3>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="bg-teal-600 py-16">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 text-center">
+        <h2 class="text-3xl font-bold text-white mb-4">Ready to split bills fairly?</h2>
+        <p class="text-teal-100 mb-8 max-w-2xl mx-auto">
+            Stop the awkward "who had what" conversations. Let WhoPaysWhat handle the math.
+        </p>
+        <a href="/bill"
+            class="inline-flex items-center gap-2 rounded-md bg-white px-8 py-3 text-base font-medium text-teal-600 shadow-sm hover:bg-teal-50 transition-colors">
+            Start Splitting Bills
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+        </a>
     </div>
 </section>

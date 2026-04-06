@@ -3,7 +3,7 @@ import { HomeComponent } from './pages/home/home';
 
 const titleResolver: ResolveFn<string> = (route) => {
     const id = route.params['id'];
-    return id ? `Project #${id}` : 'Project';
+    return id ? `WhoPaysWhat #${id}` : 'WhoPaysWhat';
 };
 export const routes: Routes = [
     {
