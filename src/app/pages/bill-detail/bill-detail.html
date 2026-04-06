@@ -1,0 +1,672 @@
+<div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <!-- Header -->
+    <div class="mb-6">
+        <button (click)="goBack()" class="flex items-center gap-2 text-gray-600 hover:text-gray-900 mb-4">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+            </svg>
+            Back to Bills
+        </button>
+
+        @if (bill) {
+        <div class="flex items-start justify-between">
+            <div>
+                <h1 class="text-2xl font-bold text-gray-900">{{ bill.title }}</h1>
+                <p class="text-sm text-gray-500 mt-1">Currency: {{ bill.currency }} • Created: {{ bill.created_at |
+                    date:'medium' }}</p>
+            </div>
+        </div>
+        }
+    </div>
+
+    <!-- Error Message -->
+    @if (error) {
+    <div class="mb-4 bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-md">
+        {{ error }}
+    </div>
+    }
+
+    <!-- Loading State -->
+    @if (loading) {
+    <div class="flex justify-center items-center py-12">
+        <svg class="animate-spin h-8 w-8 text-teal-600" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor"
+                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+            </path>
+        </svg>
+    </div>
+    } @else if (bill) {
+    <!-- Tabs -->
+    <div class="border-b border-gray-200 mb-6">
+        <nav class="flex gap-4">
+            <button (click)="switchTab('participants')"
+                [class]="activeTab === 'participants' ? 'border-teal-500 text-teal-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                class="py-3 px-1 border-b-2 font-medium text-sm flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z" />
+                </svg>
+                People
+            </button>
+            <button (click)="switchTab('items')"
+                [class]="activeTab === 'items' ? 'border-blue-500 text-blue-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                class="py-3 px-1 border-b-2 font-medium text-sm flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+                </svg>
+                Items
+            </button>
+            <button (click)="switchTab('charges')"
+                [class]="activeTab === 'charges' ? 'border-orange-500 text-orange-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                class="py-3 px-1 border-b-2 font-medium text-sm flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+                </svg>
+                Charges
+            </button>
+            <button (click)="switchTab('payments')"
+                [class]="activeTab === 'payments' ? 'border-green-500 text-green-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                class="py-3 px-1 border-b-2 font-medium text-sm flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                Payments
+            </button>
+            <button (click)="switchTab('summary')"
+                [class]="activeTab === 'summary' ? 'border-indigo-500 text-indigo-600' : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'"
+                class="py-3 px-1 border-b-2 font-medium text-sm flex items-center gap-2">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                </svg>
+                Summary
+            </button>
+        </nav>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="bg-white rounded-lg shadow-md border border-gray-200 p-6">
+        <!-- Participants Tab -->
+        @if (activeTab === 'participants') {
+        <div>
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Participants</h2>
+
+            <!-- Add Form -->
+            <form (ngSubmit)="addParticipant()" class="mb-6">
+                <div class="flex gap-2">
+                    <input type="text" [(ngModel)]="newParticipantName" name="participantName"
+                        class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+                        placeholder="Enter participant name" required>
+                    <button type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-teal-600 rounded-md hover:bg-teal-700">
+                        Add
+                    </button>
+                </div>
+            </form>
+
+            @if (participantsLoading) {
+            <div class="flex justify-center py-4">
+                <svg class="animate-spin h-6 w-6 text-teal-600" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+            </div>
+            } @else if (participants.length === 0) {
+            <div class="text-center py-8 text-gray-500">
+                <svg class="mx-auto h-10 w-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <p class="mt-2">No participants yet. Add someone above!</p>
+            </div>
+            } @else {
+            <ul class="divide-y divide-gray-200">
+                @for (participant of participants; track participant.id) {
+                <li class="py-3 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-teal-100 flex items-center justify-center">
+                            <span class="text-sm font-medium text-teal-700">{{ participant.name.charAt(0).toUpperCase()
+                                }}</span>
+                        </div>
+                        <span class="text-gray-900 font-medium">{{ participant.name }}</span>
+                    </div>
+                    <button (click)="removeParticipant(participant.id)"
+                        class="p-1.5 text-red-500 hover:bg-red-50 rounded">
+                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                        </svg>
+                    </button>
+                </li>
+                }
+            </ul>
+            }
+        </div>
+        }
+
+        <!-- Items Tab -->
+        @if (activeTab === 'items') {
+        <div>
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Items</h2>
+
+            <!-- Add Form -->
+            <form (ngSubmit)="addItem()" class="mb-6">
+                <div class="flex gap-2">
+                    <input type="text" [(ngModel)]="newItemDescription" name="itemDescription"
+                        class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Item description" required>
+                    <input type="number" [(ngModel)]="newItemPrice" name="itemPrice"
+                        class="w-32 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
+                        placeholder="Price" required>
+                    <button type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-blue-600 rounded-md hover:bg-blue-700">
+                        Add
+                    </button>
+                </div>
+            </form>
+
+            @if (itemsLoading) {
+            <div class="flex justify-center py-4">
+                <svg class="animate-spin h-6 w-6 text-blue-600" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+            </div>
+            } @else if (items.length === 0) {
+            <div class="text-center py-8 text-gray-500">
+                <svg class="mx-auto h-10 w-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                <p class="mt-2">No items yet. Add one above!</p>
+            </div>
+            } @else {
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase">Item</th>
+                            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Price</th>
+                            <th class="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase">Shared By</th>
+                            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-gray-200">
+                        @for (item of items; track item.id) {
+                        <tr>
+                            <td class="px-4 py-3 text-sm text-gray-900">{{ item.name }}</td>
+                            <td class="px-4 py-3 text-sm text-gray-900 text-right font-medium">{{ item.price }} {{
+                                bill.currency }}</td>
+                            <td class="px-4 py-3 text-center">
+                                <button (click)="openConsumersDialog(item)"
+                                    class="inline-flex items-center gap-1 px-2 py-1 text-xs text-purple-600 bg-purple-50 rounded hover:bg-purple-100">
+                                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    </svg>
+                                    {{ getItemConsumerNames(item.id) }}
+                                </button>
+                            </td>
+                            <td class="px-4 py-3 text-right">
+                                <button (click)="removeItem(item.id)"
+                                    class="p-1.5 text-red-500 hover:bg-red-50 rounded">
+                                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                            d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                    </svg>
+                                </button>
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                    <tfoot class="bg-gray-50">
+                        <tr>
+                            <td class="px-4 py-3 text-sm font-semibold text-gray-900">Total</td>
+                            <td class="px-4 py-3 text-sm font-bold text-gray-900 text-right">{{ billTotal }} {{
+                                bill.currency }}</td>
+                            <td colspan="2"></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </div>
+            }
+        </div>
+        }
+
+        <!-- Charges Tab -->
+        @if (activeTab === 'charges') {
+        <div>
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Charges</h2>
+
+            @if (chargesLoading) {
+            <div class="flex justify-center py-4">
+                <svg class="animate-spin h-6 w-6 text-orange-600" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+            </div>
+            } @else {
+            <form (ngSubmit)="saveCharges()" class="max-w-md">
+                <div class="mb-4">
+                    <label for="tax" class="block text-sm font-medium text-gray-700 mb-1">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-orange-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 14l6-6m-5.5.5h.01m4.99 5h.01M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16l3.5-2 3.5 2 3.5-2 3.5 2z" />
+                            </svg>
+                            Tax
+                        </span>
+                    </label>
+                    <div class="relative">
+                        <input type="number" id="tax" [(ngModel)]="taxCents" name="tax" min="0"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                            placeholder="0">
+                        <span class="absolute right-3 top-2 text-gray-400 text-sm">{{ bill.currency }}</span>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label for="tip" class="block text-sm font-medium text-gray-700 mb-1">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                            </svg>
+                            Tip
+                        </span>
+                    </label>
+                    <div class="relative">
+                        <input type="number" id="tip" [(ngModel)]="tipCents" name="tip" min="0"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                            placeholder="0">
+                        <span class="absolute right-3 top-2 text-gray-400 text-sm">{{ bill.currency }}</span>
+                    </div>
+                </div>
+
+                <div class="mb-6">
+                    <label for="discount" class="block text-sm font-medium text-gray-700 mb-1">
+                        <span class="flex items-center gap-2">
+                            <svg class="w-4 h-4 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" />
+                            </svg>
+                            Discount
+                        </span>
+                    </label>
+                    <div class="relative">
+                        <input type="number" id="discount" [(ngModel)]="discountCents" name="discount" min="0"
+                            class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500"
+                            placeholder="0">
+                        <span class="absolute right-3 top-2 text-gray-400 text-sm">{{ bill.currency }}</span>
+                    </div>
+                </div>
+
+                <div class="mb-6 p-4 bg-orange-50 rounded-lg">
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Tax:</span>
+                        <span class="text-orange-600">+{{ taxCents }} {{ bill.currency }}</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 mb-1">
+                        <span>Tip:</span>
+                        <span class="text-green-600">+{{ tipCents }} {{ bill.currency }}</span>
+                    </div>
+                    <div class="flex justify-between text-sm text-gray-600 mb-2">
+                        <span>Discount:</span>
+                        <span class="text-red-600">-{{ discountCents }} {{ bill.currency }}</span>
+                    </div>
+                    <div class="border-t border-orange-200 pt-2 flex justify-between font-semibold">
+                        <span>Net Charges:</span>
+                        <span [class]="chargesTotal >= 0 ? 'text-orange-700' : 'text-green-700'">
+                            {{ chargesTotal >= 0 ? '+' : '' }}{{ chargesTotal }} {{ bill.currency }}
+                        </span>
+                    </div>
+                </div>
+
+                <button type="submit"
+                    class="px-4 py-2 text-sm font-medium text-white bg-orange-600 rounded-md hover:bg-orange-700">
+                    Save Charges
+                </button>
+            </form>
+            }
+        </div>
+        }
+
+        <!-- Payments Tab -->
+        @if (activeTab === 'payments') {
+        <div>
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Payments</h2>
+
+            <!-- Summary -->
+            <div class="mb-6 p-4 bg-green-50 rounded-lg">
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <p class="text-xs text-green-600 uppercase font-medium">Bill Total</p>
+                        <p class="text-xl font-bold text-gray-900">{{ billTotal }} {{ bill.currency }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-green-600 uppercase font-medium">Paid</p>
+                        <p class="text-xl font-bold text-green-600">{{ paymentsTotal }} {{ bill.currency }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-green-600 uppercase font-medium">Remaining</p>
+                        <p class="text-xl font-bold" [class]="remainingAmount > 0 ? 'text-red-600' : 'text-green-600'">
+                            {{ remainingAmount }} {{ bill.currency }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add Form -->
+            @if (participants.length > 0 && remainingAmount > 0) {
+            <form (ngSubmit)="addPayment()" class="mb-6">
+                <div class="flex gap-2">
+                    <select [(ngModel)]="newPaymentParticipantId" name="paymentParticipant"
+                        class="flex-1 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500">
+                        <option value="">Select participant</option>
+                        @for (p of participants; track p.id) {
+                        <option [value]="p.id">{{ p.name }}</option>
+                        }
+                    </select>
+                    <input type="number" [(ngModel)]="newPaymentAmount" name="paymentAmount" [max]="remainingAmount"
+                        class="w-32 px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-green-500 focus:border-green-500"
+                        placeholder="Amount" required>
+                    <button type="submit"
+                        class="px-4 py-2 text-sm font-medium text-white bg-green-600 rounded-md hover:bg-green-700">
+                        Add
+                    </button>
+                </div>
+            </form>
+            }
+
+            @if (paymentsLoading) {
+            <div class="flex justify-center py-4">
+                <svg class="animate-spin h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor"
+                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z">
+                    </path>
+                </svg>
+            </div>
+            } @else if (payments.length === 0) {
+            <div class="text-center py-8 text-gray-500">
+                <svg class="mx-auto h-10 w-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                </svg>
+                <p class="mt-2">No payments recorded yet</p>
+            </div>
+            } @else {
+            <ul class="divide-y divide-gray-200">
+                @for (payment of payments; track payment.id) {
+                <li class="py-3 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                            <span class="text-sm font-medium text-green-700">{{
+                                getParticipantName(payment.participant_id).charAt(0).toUpperCase() }}</span>
+                        </div>
+                        <div>
+                            <span class="text-gray-900 font-medium">{{ getParticipantName(payment.participant_id)
+                                }}</span>
+                            <p class="text-xs text-gray-500">{{ payment.created_at | date:'short' }}</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="text-lg font-bold text-green-600">{{ payment.amount_cents }} {{ bill.currency
+                            }}</span>
+                        <button (click)="removePayment(payment.id)" class="p-1.5 text-red-500 hover:bg-red-50 rounded">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                            </svg>
+                        </button>
+                    </div>
+                </li>
+                }
+            </ul>
+            }
+        </div>
+        }
+
+        <!-- Summary Tab -->
+        @if (activeTab === 'summary') {
+        <div>
+            <h2 class="text-lg font-semibold text-gray-900 mb-4">Who Pays What</h2>
+
+            <!-- Bill Totals -->
+            <div class="mb-6 p-4 bg-indigo-50 rounded-lg">
+                <h3 class="text-sm font-medium text-indigo-800 mb-3">Bill Summary</h3>
+                <div class="grid grid-cols-3 gap-4 text-center">
+                    <div>
+                        <p class="text-xs text-indigo-600">Items</p>
+                        <p class="text-lg font-bold text-indigo-900">{{ summaryItemsTotal | number:'1.0-0' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-indigo-600">Charges</p>
+                        <p class="text-lg font-bold"
+                            [class]="summaryChargesTotal >= 0 ? 'text-orange-600' : 'text-green-600'">
+                            {{ summaryChargesTotal >= 0 ? '+' : '' }}{{ summaryChargesTotal | number:'1.0-0' }}
+                        </p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-indigo-600">Grand Total</p>
+                        <p class="text-lg font-bold text-indigo-900">{{ summaryGrandTotal | number:'1.0-0' }} {{
+                            bill.currency }}</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Individual Breakdown -->
+            @if (settlements.length === 0) {
+            <div class="text-center py-8 text-gray-500">
+                <svg class="mx-auto h-10 w-10 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <p class="mt-2">Add participants to see the breakdown</p>
+            </div>
+            } @else {
+            <div class="mb-6">
+                <h3 class="text-sm font-medium text-gray-700 mb-3">Individual Breakdown</h3>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th class="px-4 py-2 text-left text-xs font-medium text-gray-500 uppercase">Person</th>
+                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Items</th>
+                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Charges
+                                </th>
+                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Total</th>
+                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Paid</th>
+                                <th class="px-4 py-2 text-right text-xs font-medium text-gray-500 uppercase">Balance
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            @for (s of settlements; track s.participantId) {
+                            <tr>
+                                <td class="px-4 py-3">
+                                    <div class="flex items-center gap-2">
+                                        <div
+                                            class="w-8 h-8 rounded-full bg-indigo-100 flex items-center justify-center">
+                                            <span class="text-sm font-medium text-indigo-700">{{
+                                                s.name.charAt(0).toUpperCase() }}</span>
+                                        </div>
+                                        <span class="text-sm font-medium text-gray-900">{{ s.name }}</span>
+                                    </div>
+                                </td>
+                                <td class="px-4 py-3 text-right text-sm text-gray-600">{{ s.itemsShare | number:'1.0-0'
+                                    }}</td>
+                                <td class="px-4 py-3 text-right text-sm"
+                                    [class]="s.chargesShare >= 0 ? 'text-orange-600' : 'text-green-600'">
+                                    {{ s.chargesShare >= 0 ? '+' : '' }}{{ s.chargesShare | number:'1.0-0' }}
+                                </td>
+                                <td class="px-4 py-3 text-right text-sm font-medium text-gray-900">{{ s.totalShare |
+                                    number:'1.0-0' }}</td>
+                                <td class="px-4 py-3 text-right text-sm text-green-600">{{ s.totalPaid | number:'1.0-0'
+                                    }}</td>
+                                <td class="px-4 py-3 text-right">
+                                    @if (s.balance > 0.5) {
+                                    <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-red-100 text-red-700">
+                                        Owes {{ s.balance | number:'1.0-0' }}
+                                    </span>
+                                    } @else if (s.balance < -0.5) { <span
+                                        class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700">
+                                        Owed {{ -s.balance | number:'1.0-0' }}
+                                        </span>
+                                        } @else {
+                                        <span
+                                            class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
+                                            Settled
+                                        </span>
+                                        }
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Suggested Transfers -->
+            @if (transfers.length > 0) {
+            <div class="mb-4">
+                <h3 class="text-sm font-medium text-gray-700 mb-3">To Settle Up</h3>
+                <div class="space-y-2">
+                    @for (t of transfers; track t.from + t.to) {
+                    <div
+                        class="flex items-center justify-between p-3 bg-gradient-to-r from-red-50 to-green-50 rounded-lg border border-gray-200">
+                        <div class="flex items-center gap-3">
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-red-100 flex items-center justify-center">
+                                    <span class="text-sm font-medium text-red-700">{{ t.fromName.charAt(0).toUpperCase()
+                                        }}</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-900">{{ t.fromName }}</span>
+                            </div>
+                            <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                            </svg>
+                            <div class="flex items-center gap-2">
+                                <div class="w-8 h-8 rounded-full bg-green-100 flex items-center justify-center">
+                                    <span class="text-sm font-medium text-green-700">{{ t.toName.charAt(0).toUpperCase()
+                                        }}</span>
+                                </div>
+                                <span class="text-sm font-medium text-gray-900">{{ t.toName }}</span>
+                            </div>
+                        </div>
+                        <span class="text-lg font-bold text-indigo-600">{{ t.amount | number:'1.0-0' }} {{ bill.currency
+                            }}</span>
+                    </div>
+                    }
+                </div>
+            </div>
+            } @else if (settlements.length > 0) {
+            <div class="text-center py-4 bg-green-50 rounded-lg">
+                <svg class="mx-auto h-8 w-8 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+                <p class="mt-2 text-sm font-medium text-green-700">All settled up!</p>
+            </div>
+            }
+            }
+        </div>
+        }
+    </div>
+    }
+</div>
+
+<!-- Item Consumers Dialog -->
+@if (isConsumersDialogOpen && selectedItemForConsumers) {
+<div class="fixed inset-0 z-50 flex items-center justify-center">
+    <div class="absolute inset-0 bg-black/50" (click)="closeConsumersDialog()"></div>
+    <div class="relative bg-white rounded-lg shadow-xl w-full max-w-md mx-4 p-6 max-h-[80vh] overflow-y-auto">
+        <div class="flex items-center justify-between mb-4">
+            <div>
+                <h2 class="text-xl font-semibold text-gray-900">Who shared this?</h2>
+                <p class="text-sm text-gray-500">{{ selectedItemForConsumers.name }} - {{ selectedItemForConsumers.price
+                    }} {{ bill?.currency }}</p>
+            </div>
+            <button (click)="closeConsumersDialog()" class="text-gray-400 hover:text-gray-600">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+
+        <div class="flex gap-2 mb-4">
+            <button (click)="selectAllConsumers(selectedItemForConsumers.id)"
+                class="flex-1 px-3 py-2 text-xs font-medium text-purple-700 bg-purple-100 rounded-md hover:bg-purple-200">
+                Select All
+            </button>
+            <button (click)="clearAllConsumers(selectedItemForConsumers.id)"
+                class="flex-1 px-3 py-2 text-xs font-medium text-gray-700 bg-gray-100 rounded-md hover:bg-gray-200">
+                Clear All
+            </button>
+        </div>
+
+        @if (participants.length === 0) {
+        <div class="text-center py-4 text-gray-500">
+            <p>No participants added yet</p>
+        </div>
+        } @else {
+        <div class="space-y-2">
+            @for (participant of participants; track participant.id) {
+            <label class="flex items-center justify-between p-3 rounded-lg border cursor-pointer hover:bg-purple-50"
+                [class]="isParticipantConsumer(selectedItemForConsumers.id, participant.id) ? 'border-purple-500 bg-purple-50' : 'border-gray-200'">
+                <div class="flex items-center gap-3">
+                    <input type="checkbox"
+                        [checked]="isParticipantConsumer(selectedItemForConsumers.id, participant.id)"
+                        (change)="toggleConsumer(selectedItemForConsumers.id, participant.id)"
+                        class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500">
+                    <div class="w-8 h-8 rounded-full bg-purple-100 flex items-center justify-center">
+                        <span class="text-sm font-medium text-purple-700">{{ participant.name.charAt(0).toUpperCase()
+                            }}</span>
+                    </div>
+                    <span class="text-sm text-gray-900">{{ participant.name }}</span>
+                </div>
+                @if (isParticipantConsumer(selectedItemForConsumers.id, participant.id) &&
+                getItemConsumerCount(selectedItemForConsumers.id) > 0) {
+                <span class="text-xs text-purple-600 font-medium">
+                    {{ (selectedItemForConsumers.price / getItemConsumerCount(selectedItemForConsumers.id)) |
+                    number:'1.0-0' }} {{ bill?.currency }}
+                </span>
+                }
+            </label>
+            }
+        </div>
+        }
+
+        @if (getItemConsumerCount(selectedItemForConsumers.id) > 0) {
+        <div class="mt-4 p-3 bg-purple-50 rounded-lg text-center">
+            <p class="text-sm text-purple-700">
+                Split between <span class="font-bold">{{ getItemConsumerCount(selectedItemForConsumers.id) }}</span>
+                {{ getItemConsumerCount(selectedItemForConsumers.id) === 1 ? 'person' : 'people' }}
+                = <span class="font-bold">{{ (selectedItemForConsumers.price /
+                    getItemConsumerCount(selectedItemForConsumers.id)) | number:'1.0-0' }} {{ bill?.currency }}</span>
+                each
+            </p>
+        </div>
+        }
+
+        <div class="mt-4 flex justify-end">
+            <button (click)="closeConsumersDialog()"
+                class="px-4 py-2 text-sm font-medium text-white bg-purple-600 rounded-md hover:bg-purple-700">
+                Done
+            </button>
+        </div>
+    </div>
+</div>
+}
